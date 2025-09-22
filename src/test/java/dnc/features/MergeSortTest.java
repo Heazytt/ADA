@@ -19,7 +19,7 @@ public class MergeSortTest {
             int[] b = a.clone();
             java.util.Arrays.sort(b);
 
-            // ✅ теперь используем вложенный Metrics
+
             MergeSort.Metrics m = new MergeSort.Metrics();
             MergeSort.sort(a, m);
 
