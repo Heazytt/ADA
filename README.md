@@ -149,7 +149,7 @@ Ensures project always builds and tests pass.
 
 ---
 
-## 8. Metrics / Why
+## 7. Metrics / Why
 
 - Compare algorithms beyond time:
     - `comparisons` / `swaps`: work count independent of CPU
@@ -160,7 +160,7 @@ Ensures project always builds and tests pass.
 ---
 
 
-## 10. License & Notes
+## 9. License & Notes
 
 - Educational project for learning divide & conquer and Java
 - Each algorithm file is standalone for single-file submission
