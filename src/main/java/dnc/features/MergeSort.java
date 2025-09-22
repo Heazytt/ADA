@@ -2,7 +2,7 @@ package dnc.features;
 
 public class MergeSort {
 
-    // ==== Метрики ====
+
     public static class Metrics {
         public long comparisons = 0;
         public long swaps = 0;
@@ -17,7 +17,7 @@ public class MergeSort {
         public void decDepth() { depthCurrent--; }
     }
 
-    // ==== InsertionSort ====
+
     private static void insertionSort(int[] a, int lo, int hi, Metrics m) {
         for (int i = lo + 1; i <= hi; i++) {
             int x = a[i];
@@ -30,7 +30,7 @@ public class MergeSort {
         }
     }
 
-    // ==== MergeSort ====
+
     private static final int CUTOFF = 32;
 
     public static void sort(int[] a, Metrics m) {
