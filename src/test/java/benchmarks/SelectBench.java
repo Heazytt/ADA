@@ -26,7 +26,7 @@ public class SelectBench {
     @Benchmark
     public int medianOfMedians() {
         int[] a = data.clone();
-        SelectMoM5.Metrics m = new SelectMoM5.Metrics(); // ✅ теперь берём метрики из SelectMoM5
+        SelectMoM5.Metrics m = new SelectMoM5.Metrics();
         return SelectMoM5.select(a, k, m);
     }
 
