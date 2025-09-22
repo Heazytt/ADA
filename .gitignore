@@ -1,0 +1,8 @@
+/target/
+/results/*.csv
+/results/*.png
+*.class
+*.log
+.DS_Store
+.idea/
+*.iml
