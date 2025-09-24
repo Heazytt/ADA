@@ -13,7 +13,7 @@ import java.util.Random;
 public class Main {
 
     public static void main(String[] args) throws Exception {
-        // ==== ПАРСИНГ АРГУМЕНТОВ ====
+        
         String algo = null;
         int n = 0, trials = 1, k = -1;
         long seed = System.nanoTime();
@@ -39,13 +39,13 @@ public class Main {
             return;
         }
 
-        // ==== ВЫХОДНОЙ ФАЙЛ ====
+        
         PrintWriter out = (outFile == null) ? new PrintWriter(System.out, true) : new PrintWriter(new FileWriter(outFile, true));
         out.println("algo,n,time_ns,depth_max,comparisons,swaps,allocs,seed,notes");
 
         Random rnd = new Random(seed);
 
-        // ==== ЗАПУСК ТЕСТОВ ====
+        
         for (int t = 0; t < trials; t++) {
             long trialSeed = seed + t;
             int[] arr = rnd.ints(n, 0, 1_000_000).toArray();

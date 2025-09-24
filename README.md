@@ -1,44 +1,158 @@
-# Divide & Conquer Algorithms
+# ⚡ Divide & Conquer Algorithms
 
-This repository contains implementations of classic divide & conquer algorithms in Java, all in **single files** with self-contained helpers. It includes a CLI, JUnit 5 tests, metrics tracking, and GitHub Actions CI.
+This repository contains **classic Divide & Conquer algorithms** in Java.  
+Each algorithm is implemented in a **single self-contained file**, with:
+- 📜 CLI
+- 🧪 JUnit 5 tests
+- 📊 Metrics tracking
+- ⚙️ GitHub Actions CI
 
 ---
 
 ## 1. Algorithms
 
-### MergeSort
+
+**Merge Sort** works by splitting the array into two halves, sorting each half, and then merging them 
+back into one sorted array. 
+In our code, if the subarray is small (≤ 32 elements), we switch to Insertion Sort, because it is faster 
+for small data. 
+```
+private static void sortRec(int[] a, int lo, int hi, int[] buf, Metrics m) {
+        if (lo >= hi) return;
+        if (hi - lo + 1 <= CUTOFF) { //Where CUTOFF = 32
+            insertionSort(a, lo, hi, m); 
+            return;
+        }
+```
+
+**The merging part copies the two halves into a buffer and then compares elements one by one:**
+```
+while (i <= mid && j <= hi) {
+    if (cmp(a[i], a[j], m) <= 0) buf[k++] = a[i++];
+    else buf[k++] = a[j++];
+}
+
+```
+
+###  🧩  MergeSort
 - Self-contained: `Metrics`, `InsertionSort` helper, and `MergeSort` logic.
 - Features:
     - Single reusable buffer for merging.
     - Insertion sort for small arrays (cutoff).
-    - Tracks comparisons, swaps, allocations, and recursion depth.
+    - Always stable.
 - Complexity: O(n log n) time, O(n) memory.
 
-### QuickSort
+### ⚡ QuickSort
+
+**Quick Sort** is faster in practice because it does not need extra memory like Merge Sort. 
+The main idea is: 
+- 1. Pick a pivot element. 
+- 2. Put smaller elements to the left, bigger to the right. 
+- 3. Sort left and right parts recursively. 
+
+**In our implementation, we use a random pivot:**
+```
+int p = lo + rnd.nextInt(hi - lo + 1);
+swap(a, p, hi, m);
+int pivot = a[hi];
+```
+
+**Partitioning moves all numbers smaller than pivot to the left:**
+```
+for (int j = lo; j < hi; j++) {
+    m.comparisons++;
+    if (a[j] <= pivot) {
+        swap(a, i, j, m);
+        i++;
+    }
+}
+```
+**We also used <font color="green" >tail recursion</font> optimization: instead of always calling recursion twice, we call it for 
+the smaller half and continue the loop for the bigger half. This reduces recursion depth.**
+
 - Self-contained: `Metrics`, swap utility, partitioning logic, `QuickSort`.
 - Features:
     - Randomized pivot.
     - Always recurse into the smaller partition to limit recursion depth.
     - Tracks comparisons, swaps, and recursion depth.
-- Complexity: O(n log n) average, O(n^2) worst-case.
+- Complexity: O(n log n) average, O(n^2) worst-case(but with random pivot it’s rare.).
 
-### SelectMoM5 (Deterministic Select)
+### 🎯SelectMoM5 (Deterministic Select)
+*This algorithm finds the k-th smallest element in an array.*
+
+**The code splits the array into groups of 5, sorts them, and picks the median:**
+```
+int start = lo + g * 5;
+int end = Math.min(start + 4, hi);
+insertionSort(a, start, end, m);
+int medianIdx = start + (end - start) / 2;
+swap(a, lo + g, medianIdx, m);
+```
+**Then we recursively call medianOfMedians on the medians array**
+```
+int mid = lo + (groups - 1) / 2;
+return selectRec(a, lo, lo + groups - 1, mid, m);
+```
+And what about **Partitioning step:**
+```
+for (int j = lo; j < hi; j++) {
+    if (cmp(a[j], a[hi], m) <= 0) {
+        swap(a, i, j, m);
+        i++;
+    }
+}
+```
 - Self-contained: `Metrics`, insertion sort, partitionByValue, select logic.
 - Features:
     - Groups of 5 elements, median-of-medians for pivot.
     - Worst-case linear time selection of k-th element.
+    - More complicated than QuickSelect, but safer.
+    - Finds the exact k-th element.
 - Complexity: O(n) worst-case.
 
-### ClosestPair2D
+### 📐 ClosestPair2D
+**This is a geometry problem: given many points, find two that are closest. 
+The brute force solution checks all pairs and works in O(n²).**
+**Code for recursive part:**
+```
+if (n <= 3) {
+            double d = brute(byX, lo, hi, m);
+            Arrays.sort(byX, lo, hi + 1, Comparator.comparingDouble(p -> p.y));
+            return d;
+        }
+int mid = (lo + hi) >>> 1;
+double midX = byX[mid].x;
+double dL = rec(byX, aux, lo, mid, m);
+double dR = rec(byX, aux, mid + 1, hi, m);
+double d = Math.min(dL, dR);
+```
+**And the strip check:**
+```
+int sz = 0;
+for (int i = lo; i <= hi; i++) {
+    if (Math.abs(byX[i].x - midX) < d) {
+        aux[lo + (sz++)] = byX[i];
+    }
+}
+
+for (int i = lo; i < lo + sz; i++) {
+    for (int j = i + 1; j < Math.min(i + 8, lo + sz); j++) {
+        m.comparisons++;
+        double dist = dist(aux[i], aux[j]);
+        if (dist < d) d = dist;
+    }
+}
+```
 - Self-contained: `Metrics`, `Point`, helpers for sorting and merging, recursive divide & conquer.
 - Features:
+    - Much faster than brute force.
     - Divide points, recursively solve left and right.
-    - Merge by Y-coordinate and check the middle strip.
+    - A good example of divide and conquer outside sorting. 
 - Complexity: O(n log n).
 
 ---
 
-## 2. Project Structure
+## 🔹 2. Project Structure
 
 ```
 algos-dnc/
