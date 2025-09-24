@@ -5,7 +5,7 @@ import java.util.Comparator;
 
 public class ClosestPair2D {
 
-    // ==== Метрики ====
+    
     public static class Metrics {
         public long comparisons = 0;
         public long allocations = 0;

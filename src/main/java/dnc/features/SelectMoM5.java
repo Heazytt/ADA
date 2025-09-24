@@ -2,7 +2,7 @@ package dnc.features;
 
 public class SelectMoM5 {
 
-    // ==== Метрики ====
+    
     public static class Metrics {
         public long comparisons = 0;
         public long swaps = 0;
@@ -16,7 +16,7 @@ public class SelectMoM5 {
         public void decDepth() { depthCurrent--; }
     }
 
-    // ==== InsertionSort ====
+    
     private static void insertionSort(int[] a, int lo, int hi, Metrics m) {
         for (int i = lo + 1; i <= hi; i++) {
             int x = a[i];
@@ -29,7 +29,7 @@ public class SelectMoM5 {
         }
     }
 
-    // ==== partition by value ====
+    
     private static int partitionByValue(int[] a, int lo, int hi, int pivotValue, Metrics m) {
         int pivotIndex = -1;
         for (int k = lo; k <= hi; k++) {
@@ -53,7 +53,7 @@ public class SelectMoM5 {
         m.swaps++;
     }
 
-    // ==== Median of Medians ====
+    
     public static int select(int[] a, int k, Metrics m) {
         if (k < 0 || k >= a.length) throw new IllegalArgumentException("k out of range");
         return selectRec(a, 0, a.length - 1, k, m);
