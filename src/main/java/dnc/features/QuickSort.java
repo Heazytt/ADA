@@ -4,7 +4,7 @@ import java.util.Random;
 
 public class QuickSort {
 
-    // ==== Метрики ====
+    
     public static class Metrics {
         public long comparisons = 0;
         public long swaps = 0;
@@ -18,13 +18,13 @@ public class QuickSort {
         public void decDepth() { depthCurrent--; }
     }
 
-    // ==== swap ====
+    
     private static void swap(int[] a, int i, int j, Metrics m) {
         int t = a[i]; a[i] = a[j]; a[j] = t;
         m.swaps++;
     }
 
-    // ==== partition (случайный pivot) ====
+    
     private static int partitionRandom(int[] a, int lo, int hi, Random rnd, Metrics m) {
         int p = lo + rnd.nextInt(hi - lo + 1);
         swap(a, p, hi, m);
@@ -41,7 +41,7 @@ public class QuickSort {
         return i;
     }
 
-    // ==== QuickSort ====
+    
     public static void sort(int[] a, long seed, Metrics m) {
         Random rnd = new Random(seed);
         sortRange(a, 0, a.length - 1, rnd, m);
